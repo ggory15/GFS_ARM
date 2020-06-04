@@ -1,0 +1,1 @@
+from .trajectory_se3 import TrajectorySE3Cubic
