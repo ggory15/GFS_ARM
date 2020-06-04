@@ -76,6 +76,7 @@ def c_control(dt, robot, sample, t_simu):
     null_torque = 0.0*qa_dot  # joint damping
 
     #Torque
-    torque = ST* (JtildeT*f_star + SbarT*NLE)
+    torque = ST* (JtildeT*f_star + NtildeT*SbarT*null_torque + SbarT*NLE)
     
     return torque
+
