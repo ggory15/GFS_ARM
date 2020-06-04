@@ -14,8 +14,12 @@ import copy
 def c_control(dt, robot, sample, t_simu):
     eigenpy.switchToNumpyMatrix()
 
-    qa = robot.q # actuation joint position
-    qa_dot = robot.v # actuation joint velocity
+    qa = np.matrix(np.zeros((7, 1)))
+    qa_dot = np.matrix(np.zeros((7, 1)))
+
+    for i in range(7):
+        qa[i, 0] = robot.q[i]
+        qa_dot[i, 0] = robot.v[i] 
 
     # Method : Joint Control A q_ddot = torque
     Kp = 400. # Convergence gain
@@ -73,10 +77,11 @@ def c_control(dt, robot, sample, t_simu):
     #Null-space projection matrix
     Id6 = np.identity(6)
     NtildeT = Id6 - JtildeT*JbarT*ST
-    null_torque = 0.0*qa_dot  # joint damping
+    null_torque = 0.0 * qa_dot  # joint damping
 
     #Torque
     torque = ST* (JtildeT*f_star + NtildeT*SbarT*null_torque + SbarT*NLE)
     
     return torque
+
 
