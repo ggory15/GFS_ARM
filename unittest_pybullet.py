@@ -11,7 +11,7 @@ import pinocchio as se3
 if __name__ == '__main__':
     sim_rate = 1000
     g = 9.81
-    dataFolder = "/home/user/catkin_ws/src/iit-cogimon-ros-pkg"
+    dataFolder = "/home/ggory15/catkin_ws/src/cogimon"
     urdf_filename = '/cogimon_urdf/urdf/cogimon_arm.urdf'
     base_position=[0, 0.0,1.025]
     base_RPY=[0, 0, 0]
