@@ -2,11 +2,9 @@ import numpy as np
 import pinocchio as se3
 import eigenpy
 from scipy.spatial.transform import Rotation as R
-eigenpy.switchToNumpyMatrix()
 
 class PiRobot:
     def __init__(self, pyRobot, dataFolder, urdfFileName, basePosition=[0,0,0], baseRPY=[0,0,0]):
-        eigenpy.switchToNumpyMatrix()
         self.pyrobot = pyRobot
         self.robot = se3.RobotWrapper.BuildFromURDF(dataFolder + urdfFileName, [dataFolder])
         self.model = self.robot.model
@@ -28,11 +26,9 @@ class PiRobot:
         return dict(zip(self.getJointNames(), self.robot.q[:]))
 
     def updateJointStates(self):
-        i = 0 
-        for name, val in self.pyrobot.getActuatedJointStates().items():
-            self.robot.q[i] = val[0]
-            self.robot.v[i] = val[1]
-            i += 1
+        for name, val in self.pyrobot.getActuatedJointStates().items():         
+            self.robot.q[self.model.getJointId(str(name)) - 1] = val[0]
+            self.robot.v[self.model.getJointId(str(name)) - 1] = val[1]
         
     def setJointStates(self):
         self.pyrobot.setActuatedJointPositions(self.getJointPositions())
